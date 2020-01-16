@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +100,22 @@ public class FtpReader extends Reader {
 						throw DataXException.asDataXException(FtpReaderErrorCode.ILLEGAL_VALUE, message);
 					}
 				}	
-			}		
+			}
+			
+			/**
+			 * 列分割符支持ASCII实体编码
+			 */
+			String fieldDelimiter = this.originConfig.getString(com.alibaba.datax.plugin.unstructuredstorage.reader.Key.FIELD_DELIMITER);
+            if(null != fieldDelimiter) {
+            	String pattern = "&#(\\d{1,3});";
+        		Pattern r = Pattern.compile(pattern);
+        		Matcher m = r.matcher(fieldDelimiter);
+        		if (m.find()) {
+        			char code = (char)Integer.parseInt(m.group(1));
+        			this.originConfig.set(com.alibaba.datax.plugin.unstructuredstorage.reader.Key.FIELD_DELIMITER, code);
+        			LOG.info(String.format("fieldDelimiter配置为ASCII实体编码[%s], 转换为字符[%c]", fieldDelimiter, code));
+        		}
+            }
 
 		}
 
