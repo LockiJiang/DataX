@@ -10,26 +10,33 @@ import java.util.regex.Pattern;
  * <p/>
  */
 public enum DataBaseType {
-    MySql("mysql", "com.mysql.jdbc.Driver"),
-    Tddl("mysql", "com.mysql.jdbc.Driver"),
-    DRDS("drds", "com.mysql.jdbc.Driver"),
-    Oracle("oracle", "oracle.jdbc.OracleDriver"),
-    SQLServer("sqlserver", "com.microsoft.sqlserver.jdbc.SQLServerDriver"),
-    PostgreSQL("postgresql", "org.postgresql.Driver"),
-    RDBMS("rdbms", "com.alibaba.datax.plugin.rdbms.util.DataBaseType"),
-    DB2("db2", "com.ibm.db2.jcc.DB2Driver"),
-    ADS("ads","com.mysql.jdbc.Driver"),
-    ClickHouse("clickhouse", "ru.yandex.clickhouse.ClickHouseDriver"),
-    KingbaseES("kingbasees", "com.kingbase8.Driver"),
-    Oscar("oscar", "com.oscar.Driver");
+    /**
+     * 数据库类型枚举值
+     */
+    MySql("mysql", "com.mysql.jdbc.Driver", false, ""),
+    Tddl("mysql", "com.mysql.jdbc.Driver", false, ""),
+    DRDS("drds", "com.mysql.jdbc.Driver", false, ""),
+    Oracle("oracle", "oracle.jdbc.OracleDriver", true, ""),
+    SQLServer("sqlserver", "com.microsoft.sqlserver.jdbc.SQLServerDriver", false, ""),
+    PostgreSQL("postgresql", "org.postgresql.Driver", false, ""),
+    RDBMS("rdbms", "com.alibaba.datax.plugin.rdbms.util.DataBaseType", false, ""),
+    DB2("db2", "com.ibm.db2.jcc.DB2Driver", true, "SYSIBM."),
+    ADS("ads","com.mysql.jdbc.Driver", false, ""),
+    ClickHouse("clickhouse", "ru.yandex.clickhouse.ClickHouseDriver", false, ""),
+    KingbaseES("kingbasees", "com.kingbase8.Driver", false, ""),
+    Oscar("oscar", "com.oscar.Driver", true, "");
 
 
     private String typeName;
     private String driverClassName;
+    private boolean canMerge;
+    private String mergePrefix;
 
-    DataBaseType(String typeName, String driverClassName) {
+    DataBaseType(String typeName, String driverClassName, boolean canMerge, String mergePrefix) {
         this.typeName = typeName;
         this.driverClassName = driverClassName;
+        this.canMerge = canMerge;
+        this.mergePrefix = mergePrefix;
     }
 
     public String getDriverClassName() {
@@ -218,4 +225,11 @@ public enum DataBaseType {
         this.typeName = typeName;
     }
 
+    public boolean canMerge() {
+        return canMerge;
+    }
+
+    public String getMergePrefix() {
+        return mergePrefix;
+    }
 }

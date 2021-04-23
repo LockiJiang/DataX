@@ -71,6 +71,7 @@
         <module>gdbreader</module>
 
         <!-- writer -->
+        <module>db2writer</module>
         <module>mysqlwriter</module>
         <module>drdswriter</module>
         <module>odpswriter</module>

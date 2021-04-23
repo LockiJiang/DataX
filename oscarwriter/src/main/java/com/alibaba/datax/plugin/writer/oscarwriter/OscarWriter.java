@@ -25,8 +25,7 @@ public class OscarWriter extends Writer {
 		public void init() {
 			this.originalConfig = super.getPluginJobConf();
 
-			this.commonRdbmsWriterJob = new CommonRdbmsWriter.Job(
-					DATABASE_TYPE);
+			this.commonRdbmsWriterJob = new CommonRdbmsWriter.Job(DATABASE_TYPE);
 			this.commonRdbmsWriterJob.init(this.originalConfig);
 		}
 
@@ -37,8 +36,7 @@ public class OscarWriter extends Writer {
 
 		@Override
 		public List<Configuration> split(int mandatoryNumber) {
-			return this.commonRdbmsWriterJob.split(this.originalConfig,
-					mandatoryNumber);
+			return this.commonRdbmsWriterJob.split(this.originalConfig,	mandatoryNumber);
 		}
 
 		@Override
@@ -71,8 +69,7 @@ public class OscarWriter extends Writer {
 
 		@Override
 		public void startWrite(RecordReceiver recordReceiver) {
-			this.commonRdbmsWriterTask.startWrite(recordReceiver,
-					this.writerSliceConfig, super.getTaskPluginCollector());
+			this.commonRdbmsWriterTask.startWrite(recordReceiver, this.writerSliceConfig, super.getTaskPluginCollector());
 		}
 
 		@Override
